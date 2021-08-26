@@ -17,7 +17,7 @@ class CommandDecorators(Exception):
 def group_command(
         command: str,
         aliases: Union[Tuple[str], List[str]] = (),
-        group: Union[Tuple[int], List[int]] = [],  # 当 group 保持为空时，可针对所有群启用 # noqa
+        group: Union[Tuple[int], List[int]] = [],  # noqa
         permission: List[MemberPerm] = [  # noqa
             MemberPerm.Member, MemberPerm.Administrator, MemberPerm.Owner
         ],  # 命令权限
@@ -80,32 +80,10 @@ async def Group_instruction_processor(
         m = message.get(Plain)[0].text.strip()
     else:
         m = message.asDisplay().rstrip()
-    command = f"{m}_{group.id}"
-    if command not in group_commands:
-        return
-    elif f"{m}_null" in group_commands:
-        command = f"{m}_null"
-        target = group_commands[command]
-        if member.permission not in target.Permission:  # 检查指令需求的权限
-            await bot.sendGroupMessage(group, MessageChain.create([
-                Plain('你没有权限执行此命令')
-            ]))
-            return
-        if target.At:
-            for i in message.get(At):
-                if i.target == bot.connect_info.account:
-                    await group_commands[command].Target(
-                        **group_commands[command].Target.__annotations__
-                    )
-        else:
-            await group_commands[command].Target(
-                **group_commands[command].Target.__annotations__
-            )
-        del target
-    else:
-        if group_commands[command].Group:
-            if group.id == group_commands[command].Group:  # 检查指令是否适用当前群
-                target = group_commands[command]
+    if f"{m}_{group.id}" in group_commands:
+        if group_commands[f"{m}_{group.id}"].Group:
+            if group.id == group_commands[f"{m}_{group.id}"].Group:  # 检查指令是否适用当前群
+                target = group_commands[f"{m}_{group.id}"]
                 if member.permission not in target.Permission:  # 检查指令需求的权限
                     await bot.sendGroupMessage(group, MessageChain.create([
                         Plain('你没有权限执行此命令')
@@ -114,15 +92,15 @@ async def Group_instruction_processor(
                 if target.At:
                     for i in message.get(At):
                         if i.target == bot.connect_info.account:
-                            await group_commands[command].Target(
-                                **group_commands[command].Target.__annotations__
+                            await group_commands[f"{m}_{group.id}"].Target(
+                                **group_commands[f"{m}_{group.id}"].Target.__annotations__
                             )
                 else:
-                    await group_commands[command].Target(
-                        **group_commands[command].Target.__annotations__
+                    await group_commands[f"{m}_{group.id}"].Target(
+                        **group_commands[f"{m}_{group.id}"].Target.__annotations__
                     )
                 del target
-    del m, command
+    del m
 
 
 @bcc.receiver("FriendMessage")
