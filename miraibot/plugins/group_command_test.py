@@ -6,8 +6,9 @@
 @bot tt
 """
 from miraibot import get, GraiaMiraiApplication
-from miraibot.command import group_command
 from miraibot.event import Member, MemberPerm, Group, MessageChain, GroupMessage
+from miraibot.command import group_command
+
 
 bcc = get.bcc()
 __plugin_name__ = "群指令系统示例插件"
@@ -22,10 +23,10 @@ __plugin_usage__ = "群指令系统测试，可用命令：test、t、tt，需�
     at=True
 )
 async def group_command_listener(
-        app: GraiaMiraiApplication,
-        group: Group,
-        message: MessageChain,
-        member: Member,
-        event: GroupMessage
+    app: GraiaMiraiApplication,
+    group: Group,
+    message: MessageChain,
+    member: Member,
+    event: GroupMessage
 ):
     print(app, group, message, member, event, sep='\n')
