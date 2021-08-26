@@ -1,4 +1,5 @@
 from typing import List
+
 from ..event import MemberPerm
 # from ..message import Group as GraiaGroup
 
@@ -13,13 +14,13 @@ class ExecClass:
     Shell_like: bool
 
     def __init__(
-        self,
-        name: str,
-        target: object,
-        group: List[int] = None,
-        permission: MemberPerm = None,
-        at: bool = False,
-        shell_like: bool = False
+            self,
+            name: str,
+            target: object,
+            group: List[int] = None,
+            permission: MemberPerm = None,
+            at: bool = False,
+            shell_like: bool = False
     ):
         self.Name = name
         self.Target = target
