@@ -86,10 +86,6 @@ def load_plugins(plugin_dir: str, module_prefix: str) -> int:
                     count += 1
     count = 0
     fors(plugin_dir, module_prefix)
-    fors(
-        os.path.join(os.path.dirname(__file__), 'plugins'),
-        'miraibot.plugins'
-    )
     logger.info(f'共导入了 {count} 个插件')
     return count
 
